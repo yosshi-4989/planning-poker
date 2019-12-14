@@ -1,1 +1,9 @@
 
+.title-context {
+  max-width: 400px; // 横幅の上限を決める
+  margin: auto;     // 画面真ん中に配置する(横方向)
+}
+.title-position {
+  // 横幅に対する割合で調整(親要素のwidthに依存する)
+  padding-top: 40%;
+}
