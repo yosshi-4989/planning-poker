@@ -37,7 +37,6 @@ export class ProfilePage implements OnInit {
     const image = await Plugins.Camera.getPhoto({
       quality: 100, // 画像の最高画質
       resultType: CameraResultType.DataUrl, // 出力形式をBase64文字列に指定
-      // source: CameraSource.Photos,
     });
     this.photo = image && image.dataUrl; // 取得結果を格納
   }
