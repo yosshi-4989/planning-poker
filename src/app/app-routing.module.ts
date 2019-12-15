@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'signin',
     loadChildren: () => import('./auth/signin/signin.module').then( m => m.SigninPageModule)
   },
+  {
+    path: 'list',
+    loadChildren: () => import('./poker/list/list.module').then( m => m.ListPageModule)
+  },
 
 ];
 
