@@ -3,19 +3,15 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},  {
-    path: 'signup',
-    loadChildren: () => import('./auth/signup/signup.module').then( m => m.SignupPageModule)
+  { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule)
   },
   {
-    path: 'signin',
-    loadChildren: () => import('./auth/signin/signin.module').then( m => m.SigninPageModule)
+    path: 'poker',
+    loadChildren: () => import('./poker/poker.module').then( m => m.PokerModule)
   },
-  {
-    path: 'list',
-    loadChildren: () => import('./poker/list/list.module').then( m => m.ListPageModule)
-  },
-
 ];
 
 @NgModule({
