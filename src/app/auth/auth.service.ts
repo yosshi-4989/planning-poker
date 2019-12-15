@@ -14,6 +14,11 @@ export class AuthService {
     public alertController: AlertController,
   ) { }
 
+  // uidを取得
+  getUserId(): string {
+    return this.afAuth.auth.currentUser.uid;
+  }
+
   // 登録して一覧ページへ遷移
   authSignUp(login: { email: string, password: string}) {
     return this.afAuth.auth
