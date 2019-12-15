@@ -6,6 +6,7 @@ import { ProfilePage } from './profile/profile.page';
 
 @NgModule({
   declarations: [ProfilePage],
+  entryComponents: [ProfilePage],
   imports: [
     CommonModule,
     FormsModule,
