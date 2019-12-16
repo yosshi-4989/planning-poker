@@ -45,4 +45,12 @@ export class ListPage implements OnInit {
   signOut() {
     this.auth.authSignOut();
   }
+
+  // プロフィールモーダルを開く
+  async openProfile() {
+    const modal = await this.modalController.create({
+      component: ProfilePage,
+    });
+    modal.present();
+  }
 }
