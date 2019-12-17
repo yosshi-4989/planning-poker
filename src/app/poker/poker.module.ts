@@ -5,16 +5,21 @@ import { IonicModule } from '@ionic/angular';
 import { Routes, RouterModule } from '@angular/router';
 import { ListPage } from './list/list.page';
 import { SharedModule } from '../shared/shared.module';
+import { RoomPage } from './room/room.page';
 
 const routes: Routes = [
   {
-    path: 'list',
+    path: '',
     component: ListPage
+  },
+  {
+    path: ':roomId',
+    component: RoomPage
   }
 ];
 
 @NgModule({
-  declarations: [ListPage],
+  declarations: [ListPage, RoomPage],
   imports: [
     CommonModule,
     FormsModule,

@@ -5,7 +5,7 @@ import { redirectUnauthorizedTo, redirectLoggedInTo, AngularFireAuthGuard } from
 // 未認証のユーザーのリダイレクト先を設定
 const redirectUnauthorized = () => redirectUnauthorizedTo(['/']);
 // 認証済みのユーザーのリダイレクト先を設定
-const redirectLoggedIn = () => redirectLoggedInTo(['poker/list']);
+const redirectLoggedIn = () => redirectLoggedInTo(['poker']);
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },

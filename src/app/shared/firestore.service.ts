@@ -8,9 +8,13 @@ export interface IUser {
   photoDataUrl: string;
 }
 
-export interface IRoom {
+export interface IRoomInfo {
   roomName: string;
   createDate: number;
+}
+
+export interface IRoom extends IRoomInfo {
+  roomId: string;
 }
 
 @Injectable({
@@ -18,10 +22,10 @@ export interface IRoom {
 })
 export class FirestoreService {
   userDoc: AngularFirestoreDocument<IUser>;
-  roomCollection: AngularFirestoreCollection<IRoom>;
+  roomCollection: AngularFirestoreCollection<IRoomInfo>;
 
   constructor(public af: AngularFirestore) {
-    this.roomCollection = this.af.collection<IRoom>('room', ref => ref.orderBy('createDate', 'desc'));
+    this.roomCollection = this.af.collection<IRoomInfo>('room', ref => ref.orderBy('createDate', 'desc'));
   }
 
   // ユーザー情報(userDoc)を初期化するメソッド
@@ -39,6 +43,6 @@ export class FirestoreService {
   }
 
   roomListInit(): Observable<IRoom[]> {
-    return this.roomCollection.valueChanges();
+    return this.roomCollection.valueChanges({idField: 'roomId'});
   }
 }

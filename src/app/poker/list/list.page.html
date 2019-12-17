@@ -33,7 +33,7 @@
     </ion-header>
 
     <ion-content color="playmat">
-      <ion-card button="true" color="primary" *ngFor="let room of roomList | async; trackBy: trackByFn">
+      <ion-card button="true" color="primary" *ngFor="let room of roomList | async; trackBy: trackByFn" routerLink="/poker/{{room.roomId}}">
         <ion-card-content>
           <strong>{{room.roomName}}</strong>
         </ion-card-content>
