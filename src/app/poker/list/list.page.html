@@ -22,7 +22,7 @@
   </ion-menu>
 
   <!-- the main content -->
-  <ion-content id="menu-content">
+  <ion-content id="menu-content" scrollY="false">
     <ion-header>
       <ion-toolbar color="playmat">
         <ion-buttons slot="start">
@@ -33,6 +33,11 @@
     </ion-header>
 
     <ion-content color="playmat">
+      <ion-card button="true" color="primary" *ngFor="let room of roomList | async; trackBy: trackByFn">
+        <ion-card-content>
+          <strong>{{room.roomName}}</strong>
+        </ion-card-content>
+      </ion-card>
     </ion-content>
   </ion-content>
 </ion-split-pane>

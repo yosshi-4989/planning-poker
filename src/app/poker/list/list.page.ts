@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { AuthService } from 'src/app/auth/auth.service';
-import { FirestoreService, IUser } from 'src/app/shared/firestore.service';
+import { FirestoreService, IUser, IRoom } from 'src/app/shared/firestore.service';
 import { ProfilePage } from 'src/app/shared/profile/profile.page';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -14,6 +15,7 @@ export class ListPage implements OnInit {
 
   uid: string;
   user: IUser;
+  roomList: Observable<IRoom[]>;
 
   constructor(
     public modalController: ModalController,
@@ -34,6 +36,7 @@ export class ListPage implements OnInit {
       // モーダルが非表示になった時にも表示するメソッドを実行してユーザー情報を取得する
       modal.onWillDismiss().then(() => this.ionViewWillEnter());
     }
+    this.roomList = this.firestore.roomListInit();
   }
 
   // ユーザ情報を取得
@@ -52,5 +55,8 @@ export class ListPage implements OnInit {
       component: ProfilePage,
     });
     modal.present();
+  }
+  trackByFn(index, item) {
+    return item.roomName;
   }
 }

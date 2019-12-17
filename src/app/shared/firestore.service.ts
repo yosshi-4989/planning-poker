@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestoreDocument, AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestoreDocument, AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export interface IUser {
   displayName: string;
   photoDataUrl: string;
+}
+
+export interface IRoom {
+  roomName: string;
+  createDate: number;
 }
 
 @Injectable({
@@ -12,8 +18,11 @@ export interface IUser {
 })
 export class FirestoreService {
   userDoc: AngularFirestoreDocument<IUser>;
+  roomCollection: AngularFirestoreCollection<IRoom>;
 
-  constructor(public af: AngularFirestore) { }
+  constructor(public af: AngularFirestore) {
+    this.roomCollection = this.af.collection<IRoom>('room', ref => ref.orderBy('createDate', 'desc'));
+  }
 
   // ユーザー情報(userDoc)を初期化するメソッド
   userInit(uid: string): Promise<IUser> {
@@ -27,5 +36,9 @@ export class FirestoreService {
   // ユーザー情報を更新する
   userSet(user: IUser): Promise<void> {
     return this.userDoc.set(user);
+  }
+
+  roomListInit(): Observable<IRoom[]> {
+    return this.roomCollection.valueChanges();
   }
 }
