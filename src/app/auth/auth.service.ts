@@ -23,7 +23,7 @@ export class AuthService {
   authSignUp(login: { email: string, password: string}) {
     return this.afAuth.auth
       .createUserWithEmailAndPassword(login.email, login.password)
-      .then(() => this.navController.navigateForward('poker/list'))
+      .then(() => this.navController.navigateForward('poker'))
       .catch(error => {
         this.alertError(error);
         throw error;
@@ -33,7 +33,7 @@ export class AuthService {
   authSignIn(login: { email: string, password: string}) {
     return this.afAuth.auth
       .signInWithEmailAndPassword(login.email, login.password)
-      .then(() => this.navController.navigateForward('poker/list'))
+      .then(() => this.navController.navigateForward('poker'))
       .catch(error => {
         this.alertError(error);
         throw error;
