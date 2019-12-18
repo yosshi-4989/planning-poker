@@ -1,3 +1,6 @@
-<p>
-  poker-card works!
-</p>
+<ion-card class="p-card ion-text-center" *ngIf="isOpen">
+  <ion-card-title class="middle-center" [(ngStyle)]="frontStyle">{{number}}</ion-card-title>
+</ion-card>
+<ion-card class="p-card ion-text-center" [color]="userColor" *ngIf="!isOpen">
+  <ion-icon class="middle-center" name="moon" size="large"></ion-icon>
+</ion-card>
