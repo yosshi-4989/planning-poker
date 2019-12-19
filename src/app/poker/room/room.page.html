@@ -8,6 +8,33 @@
 </ion-header>
 
 <ion-content>
-  {{roomId}}
-  <app-poker-card userName="uname" number="1" userColor="primary" [isOpen]="false"></app-poker-card>
+  <ion-split-pane when="md">
+    <!--  チャットエリア  -->
+    <ion-menu side="end" class="custom-menu">
+      <ion-content>
+      </ion-content>
+
+      <ion-footer>
+        <ion-textarea placeholder="Text Area"></ion-textarea>
+      </ion-footer>
+    </ion-menu>
+
+    <!--  プレイエリア  -->
+    <div class="ion-page" main>
+      <ion-content color="playmat" class="ion-padding-top">
+        <app-poker-card userName="uname" number="1" userColor="primary" [isOpen]="false"></app-poker-card>
+        <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+          <ion-menu-toggle>
+            <ion-fab-button color="primary">
+              <ion-icon name="chatboxes"></ion-icon>
+            </ion-fab-button>
+          </ion-menu-toggle>
+        </ion-fab>
+      </ion-content>
+
+      <ion-footer>
+        <app-poker-card userName="uname" number="1" userColor="primary" [isOpen]="false"></app-poker-card>
+      </ion-footer>
+    </div>
+  </ion-split-pane>
 </ion-content>
