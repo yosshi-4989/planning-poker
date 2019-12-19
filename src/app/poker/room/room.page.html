@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content>
-  <ion-split-pane when="md">
+  <ion-split-pane contentId="playarea" when="md">
     <!--  チャットエリア  -->
-    <ion-menu side="end" class="custom-menu">
+    <ion-menu menuId="chat" contentId="playarea" side="end" class="custom-menu">
       <ion-content>
       </ion-content>
 
@@ -20,11 +20,11 @@
     </ion-menu>
 
     <!--  プレイエリア  -->
-    <div class="ion-page" main>
+    <div class="ion-page" id="playarea">
       <ion-content color="playmat" class="ion-padding-top">
         <app-poker-card userName="uname" number="1" userColor="primary" [isOpen]="false"></app-poker-card>
         <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-          <ion-menu-toggle>
+          <ion-menu-toggle menu="chat">
             <ion-fab-button color="primary">
               <ion-icon name="chatboxes"></ion-icon>
             </ion-fab-button>
