@@ -22,7 +22,16 @@
     <!--  プレイエリア  -->
     <div class="ion-page" id="playarea">
       <ion-content color="playmat" class="ion-padding-top">
-        <app-poker-card userName="uname" number="1" userColor="primary" [isOpen]="false"></app-poker-card>
+        <!-- カード表示エリア -->
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]">
+              <app-poker-card userName="uname" number="1" userColor="primary" [isOpen]="false"></app-poker-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+        <!-- チャットエリアを表示するボタン -->
         <ion-fab horizontal="end" vertical="bottom" slot="fixed">
           <ion-menu-toggle menu="chat">
             <ion-fab-button color="primary">
