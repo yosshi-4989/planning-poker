@@ -25,10 +25,10 @@
         <!-- カード表示エリア -->
         <ion-grid>
           <ion-row>
-            <ion-col *ngFor="let i of [1,1,1,1,1,1,1,1,1]" size-lg="2" size-md="3" size-sm="2" size="3">
-              <app-poker-card userName="uname" number="1" userColor="primary" [isOpen]="false"></app-poker-card>
+            <ion-col *ngFor="let u of users | async; trackBy: trackByFn" size-lg="2" size-md="3" size-sm="2" size="3">
+              <app-poker-card [number]="u.card" userColor="primary" [isOpen]="u.id === user.id"></app-poker-card>
               <!-- ユーザー名 -->
-              <div color="primary" class="ion-text-center text-ellipse">uname</div>
+              <div color="primary" class="ion-text-center text-ellipse">{{u.name}}</div>
             </ion-col>
           </ion-row>
         </ion-grid>

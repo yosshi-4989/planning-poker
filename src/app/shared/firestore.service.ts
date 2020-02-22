@@ -66,4 +66,10 @@ export class FirestoreService {
   roomUserSet(roomId: string, user: IRoomUser): Promise<void> {
     return this.roomCollection.doc<IRoomUser>(roomId + '/users/' + user.id).set(user);
   }
+  // ルームにいるユーザー一覧の取得(変更をリアルタイムに受けるためObservable)
+  roomUserListInit(roomId: string): Observable<IRoomUser[]> {
+    return this.roomCollection.doc(roomId)
+      .collection<IRoomUser>('users', ref => ref.orderBy('enterDate', 'asc'))
+      .valueChanges();
+  }
 }

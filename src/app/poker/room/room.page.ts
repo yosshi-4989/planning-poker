@@ -3,6 +3,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FirestoreService, IRoomUser } from 'src/app/shared/firestore.service';
 import { AlertController, NavController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-room',
@@ -13,6 +14,7 @@ export class RoomPage implements OnInit {
   roomId: string;
   user: IRoomUser;
   uid: string;
+  users: Observable<IRoomUser[]>;
 
   constructor(
     public route: ActivatedRoute,
@@ -63,5 +65,10 @@ export class RoomPage implements OnInit {
       };
       this.firestore.roomUserSet(this.roomId, this.user);
     }
+    // ルームのユーザーリストの取得
+    this.users = this.firestore.roomUserListInit(this.roomId);
+  }
+  trackByFn(index, item) {
+    return item.id;
   }
 }
