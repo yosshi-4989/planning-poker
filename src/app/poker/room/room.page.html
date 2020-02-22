@@ -45,7 +45,9 @@
 
       <ion-footer>
         <div scrollX="true" class="hand-area">
-          <app-poker-card class="hand-card" userName="uname" number="{{num}}" userColor="primary" [isOpen]="true"  *ngFor="let num of ['0', '1/2', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', '?']"></app-poker-card>
+          <app-poker-card class="hand-card" [number]="num" userColor="primary" [isOpen]="true"
+            *ngFor="let num of ['0', '1/2', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', '?', null]" (click)="updateCard(num)">
+          </app-poker-card>
         </div>
       </ion-footer>
     </div>

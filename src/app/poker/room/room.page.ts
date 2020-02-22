@@ -22,6 +22,12 @@ export class RoomPage implements OnInit {
     public firestore: FirestoreService,
   ) { }
 
+  // カード情報を更新
+  async updateCard(num: string) {
+    this.user.card = num;
+    this.firestore.roomUserSet(this.roomId, this.user);
+  }
+
   async ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => this.roomId = params.get('roomId'));
     // authからuidを取得し、firestoreのデータを確認
