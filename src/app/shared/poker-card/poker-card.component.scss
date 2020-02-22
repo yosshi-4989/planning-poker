@@ -3,8 +3,16 @@
   border-radius: 10px;
   width: 70px;
   height: 100px;
-  float: left;
-  margin: 5px;
+  margin: auto;
+}
+
+.blank-card {
+  border: dashed 1px #4e4e4e;
+  border-radius: 10px;
+  background-color: white;
+  width: 70px;
+  height: 100px;
+  margin: auto;
 }
 
 .middle-center {
