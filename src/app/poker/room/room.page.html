@@ -25,8 +25,10 @@
         <!-- カード表示エリア -->
         <ion-grid>
           <ion-row>
-            <ion-col *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]">
+            <ion-col *ngFor="let i of [1,1,1,1,1,1,1,1,1]" size-lg="2" size-md="3" size-sm="2" size="3">
               <app-poker-card userName="uname" number="1" userColor="primary" [isOpen]="false"></app-poker-card>
+              <!-- ユーザー名 -->
+              <div color="primary" class="ion-text-center text-ellipse">uname</div>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -42,7 +44,9 @@
       </ion-content>
 
       <ion-footer>
-        <app-poker-card userName="uname" number="1" userColor="primary" [isOpen]="false"></app-poker-card>
+        <div scrollX="true" class="hand-area">
+          <app-poker-card class="hand-card" userName="uname" number="{{num}}" userColor="primary" [isOpen]="true"  *ngFor="let num of ['0', '1/2', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', '?']"></app-poker-card>
+        </div>
       </ion-footer>
     </div>
   </ion-split-pane>

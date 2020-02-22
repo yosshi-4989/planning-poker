@@ -7,3 +7,35 @@
 .playarea {
   padding-top: 40px;
 }
+
+.text-ellipse {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hand-area {
+  height: 120px;
+  // 横スクロールにするための設定
+  // 縦スクロールにする場合はdisplayをコメントアウトして、scrollXをscrollYに変更する
+  display: flex;
+  display: -webkit-flex;
+
+  .hand-card {
+    float: left;
+    margin: 5px;
+  }
+}
+
+div[scrollx=true],div[scrolly=true] {
+  position: relative;
+  overflow: hidden;
+}
+
+div[scrollx=true] {
+  overflow-x: auto;
+}
+
+div[scrolly=true] {
+  overflow-y: auto;
+}
