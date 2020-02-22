@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import { FirestoreService, IUser } from 'src/app/shared/firestore.service';
+import { FirestoreService, IRoomUser } from 'src/app/shared/firestore.service';
 import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
@@ -11,7 +11,7 @@ import { AlertController, NavController } from '@ionic/angular';
 })
 export class RoomPage implements OnInit {
   roomId: string;
-  user: IUser;
+  user: IRoomUser;
   uid: string;
 
   constructor(
@@ -44,7 +44,18 @@ export class RoomPage implements OnInit {
   // ユーザ情報を取得
   async ionViewWillEnter() {
     this.uid = this.auth.getUserId();
-    this.user = await this.firestore.userInit(this.uid);
+    // ユーザーを取得(すでに存在する場合に取得できる)
+    this.user = await this.firestore.roomUserInit(this.roomId, this.uid);
+    // ユーザーが存在しない場合は登録する
+    if (!this.user) {
+      const user = await this.firestore.userInit( this.auth.getUserId() );
+      this.user = {
+        id: this.uid,
+        name: user.displayName,
+        card: null,
+        enterDate: new Date(), // 入室日時を格納
+      };
+      this.firestore.roomUserSet(this.roomId, this.user);
+    }
   }
-
 }

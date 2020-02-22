@@ -8,6 +8,14 @@ export interface IUser {
   photoDataUrl: string;
 }
 
+// 入室メンバーのステータス
+export interface IRoomUser {
+  id: string;
+  name: string;
+  card: string;
+  enterDate: Date;
+}
+
 export interface IRoomInfo {
   roomName: string;
   createDate: number;
@@ -42,7 +50,20 @@ export class FirestoreService {
     return this.userDoc.set(user);
   }
 
+  // ルーム一覧情報を取得する
   roomListInit(): Observable<IRoom[]> {
     return this.roomCollection.valueChanges({idField: 'roomId'});
+  }
+
+  // 入室ユーザー情報の取得
+  roomUserInit(roomId: string, uid: string): Promise<IRoomUser> {
+    return this.roomCollection.doc<IRoomUser>(roomId + '/users/' + uid)
+      .valueChanges()
+      .pipe(first())
+      .toPromise(Promise);
+  }
+  // 入室ユーザー情報の登録
+  roomUserSet(roomId: string, user: IRoomUser): Promise<void> {
+    return this.roomCollection.doc<IRoomUser>(roomId + '/users/' + user.id).set(user);
   }
 }
