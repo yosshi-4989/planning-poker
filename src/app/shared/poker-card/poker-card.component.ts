@@ -9,6 +9,7 @@ export class PokerCardComponent implements OnInit {
   @Input() card: string;
   @Input() isOpen: boolean;
   @Input() userColor: string; // カード色
+  @Input() disabled: boolean;
   frontStyle;
 
   constructor() { }

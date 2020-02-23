@@ -1,9 +1,9 @@
-<ion-card class="p-card ion-text-center" *ngIf="!!card && isOpen">
+<ion-card class="p-card ion-text-center" *ngIf="!!card && isOpen" disabled="{{disabled}}">
   <ion-card-title class="middle-center" [(ngStyle)]="frontStyle">{{card}}</ion-card-title>
 </ion-card>
-<ion-card class="p-card ion-text-center" [color]="userColor" *ngIf="!!card && !isOpen">
+<ion-card class="p-card ion-text-center" [color]="userColor" *ngIf="!!card && !isOpen" disabled="{{disabled}}">
   <ion-icon class="middle-center" name="moon" size="large"></ion-icon>
 </ion-card>
-<ion-card class="blank-card ion-text-center" *ngIf="!card">
+<ion-card class="blank-card ion-text-center" *ngIf="!card" disabled="{{disabled}}">
   <ion-card-title class="middle-center blank-context">Blank</ion-card-title>
 </ion-card>

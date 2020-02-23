@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import { FirestoreService, IRoomUser, IRoomInfo, IChat } from 'src/app/shared/firestore.service';
+import { FirestoreService, IRoomUser, IRoomInfo, IChat, ICard } from 'src/app/shared/firestore.service';
 import { AlertController, NavController, IonContent } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
@@ -15,7 +15,7 @@ export class RoomPage implements OnInit {
   roomId: string;
   user: IRoomUser;
   uid: string;
-  users: Observable<IRoomUser[]>;
+  users: Observable<ICard[]>;
   roomInfo: IRoomInfo;
   cardOpen: Observable<boolean>;
   messages: Observable<IChat[]>;
@@ -34,6 +34,9 @@ export class RoomPage implements OnInit {
 
   // カード情報を更新
   async updateCard(num: string) {
+    if (await this.firestore.roomInfoInit(this.roomId).pipe(map(v => v.cardOpen), first()).toPromise(Promise)) {
+      return;
+    }
     this.user.card = num;
     this.firestore.roomUserSet(this.roomId, this.user);
   }

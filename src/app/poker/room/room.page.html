@@ -19,7 +19,7 @@
             </ion-avatar>
             <ion-label class="ion-padding ion-text-wrap" style="background-color: var(--ion-color-light-tint); border-radius: 12px;"
               [class.ion-margin-end]="m.uid !== uid" [class.ion-margin-start]="m.uid === uid">
-              <div class="ion-text-nowrap"><strong>{{m.displayName}}</strong>: <strong color="primary">{{m.card}}</strong></div>
+              <div class="ion-text-nowrap"><strong>{{m.displayName}}</strong>: <strong>{{ (m.openFlag | async) ? m.card : "●"}}</strong></div>
               {{m.message}}
             </ion-label>
           </ion-item>
@@ -37,18 +37,20 @@
     <!--  プレイエリア  -->
     <div class="ion-page" id="playarea">
       <ion-content color="playmat" class="ion-padding-top">
+        <div class="ion-text-center">
+          <ion-button (click)="openCard()">Open</ion-button>
+          <ion-button (click)="closeCard()">Close</ion-button>
+        </div>
         <!-- カード表示エリア -->
         <ion-grid>
           <ion-row>
-            <ion-col *ngFor="let u of users | async; trackBy: trackByFn" size-lg="2" size-md="3" size-sm="2" size="3">
-              <app-poker-card [card]="u.card" userColor="primary" [isOpen]="(cardOpen | async) || u.id === user.id"></app-poker-card>
+            <ion-col *ngFor="let u of users | async; trackBy: trackByFn;" size-lg="2" size-md="3" size-sm="2" size="3">
+              <app-poker-card [card]="u.card" userColor="primary" [isOpen]="(u.openFlag | async) || u.id === user.id" [disabled]="false"></app-poker-card>
               <!-- ユーザー名 -->
               <div color="primary" class="ion-text-center text-ellipse">{{u.name}}</div>
             </ion-col>
           </ion-row>
         </ion-grid>
-        <ion-button (click)="openCard()">Open</ion-button>
-        <ion-button (click)="closeCard()">Close</ion-button>
 
         <!-- チャットエリアを表示するボタン -->
         <ion-fab horizontal="end" vertical="bottom" slot="fixed">
@@ -62,7 +64,7 @@
 
       <ion-footer>
         <div scrollX="true" class="hand-area">
-          <app-poker-card class="hand-card" [card]="num" userColor="primary" [isOpen]="true"
+        <app-poker-card class="hand-card" [card]="num" userColor="primary" [isOpen]="true" [disabled]="cardOpen | async"
             *ngFor="let num of ['0', '1/2', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', '?', null]" (click)="updateCard(num)">
           </app-poker-card>
         </div>
