@@ -1,10 +1,9 @@
-<ion-card class="p-card ion-text-center" *ngIf="!!number && isOpen">
-  <ion-card-title class="middle-center" [(ngStyle)]="frontStyle">{{number}}</ion-card-title>
+<ion-card class="p-card ion-text-center" *ngIf="!!card && isOpen">
+  <ion-card-title class="middle-center" [(ngStyle)]="frontStyle">{{card}}</ion-card-title>
 </ion-card>
-<ion-card class="p-card ion-text-center" [color]="userColor" *ngIf="!!number && !isOpen">
+<ion-card class="p-card ion-text-center" [color]="userColor" *ngIf="!!card && !isOpen">
   <ion-icon class="middle-center" name="moon" size="large"></ion-icon>
 </ion-card>
-<ion-card class="blank-card ion-text-center" *ngIf="!number">
-  <ion-card-title class="middle-center" style="color: var(--ion-color-medium);">Blank</ion-card-title>
+<ion-card class="blank-card ion-text-center" *ngIf="!card">
+  <ion-card-title class="middle-center blank-context">Blank</ion-card-title>
 </ion-card>
-  

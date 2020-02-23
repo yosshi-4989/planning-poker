@@ -26,13 +26,15 @@
         <ion-grid>
           <ion-row>
             <ion-col *ngFor="let u of users | async; trackBy: trackByFn" size-lg="2" size-md="3" size-sm="2" size="3">
-              <app-poker-card [number]="u.card" userColor="primary" [isOpen]="u.id === user.id"></app-poker-card>
+              <app-poker-card [card]="u.card" userColor="primary" [isOpen]="(cardOpen | async) || u.id === user.id"></app-poker-card>
               <!-- ユーザー名 -->
               <div color="primary" class="ion-text-center text-ellipse">{{u.name}}</div>
             </ion-col>
           </ion-row>
         </ion-grid>
-        
+        <ion-button (click)="openCard()">Open</ion-button>
+        <ion-button (click)="closeCard()">Close</ion-button>
+
         <!-- チャットエリアを表示するボタン -->
         <ion-fab horizontal="end" vertical="bottom" slot="fixed">
           <ion-menu-toggle menu="chat">
@@ -45,7 +47,7 @@
 
       <ion-footer>
         <div scrollX="true" class="hand-area">
-          <app-poker-card class="hand-card" [number]="num" userColor="primary" [isOpen]="true"
+          <app-poker-card class="hand-card" [card]="num" userColor="primary" [isOpen]="true"
             *ngFor="let num of ['0', '1/2', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', '?', null]" (click)="updateCard(num)">
           </app-poker-card>
         </div>

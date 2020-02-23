@@ -19,6 +19,7 @@ export interface IRoomUser {
 export interface IRoomInfo {
   roomName: string;
   createDate: number;
+  cardOpen: boolean;
 }
 
 export interface IRoom extends IRoomInfo {
@@ -53,6 +54,15 @@ export class FirestoreService {
   // ルーム一覧情報を取得する
   roomListInit(): Observable<IRoom[]> {
     return this.roomCollection.valueChanges({idField: 'roomId'});
+  }
+
+  // ルーム情報を取得
+  roomInfoInit(roomId: string): Observable<IRoomInfo> {
+    return this.roomCollection.doc<IRoomInfo>(roomId).valueChanges();
+  }
+  // ルーム情報を更新する
+  roomInfoSet(roomId: string, roomInfo: IRoomInfo) {
+    this.roomCollection.doc<IRoomInfo>(roomId).set(roomInfo);
   }
 
   // 入室ユーザー情報の取得
