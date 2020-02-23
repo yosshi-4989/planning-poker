@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import { FirestoreService, IRoomUser, IRoomInfo } from 'src/app/shared/firestore.service';
-import { AlertController, NavController } from '@ionic/angular';
+import { FirestoreService, IRoomUser, IRoomInfo, IChat } from 'src/app/shared/firestore.service';
+import { AlertController, NavController, IonContent } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
 
@@ -18,6 +18,11 @@ export class RoomPage implements OnInit {
   users: Observable<IRoomUser[]>;
   roomInfo: IRoomInfo;
   cardOpen: Observable<boolean>;
+  messages: Observable<IChat[]>;
+  message: string;
+
+  @ViewChild(IonContent, { static: true})
+  content: IonContent;
 
   constructor(
     public route: ActivatedRoute,
@@ -41,6 +46,21 @@ export class RoomPage implements OnInit {
   async closeCard() {
     this.roomInfo.cardOpen = false;
     this.firestore.roomInfoSet(this.roomId, this.roomInfo);
+  }
+  // メッセージ送信
+  postMessage() {
+    if (!this.user) {
+      alert('ユーザー情報がありません。');
+      return;
+    }
+    this.firestore.messageAdd(this.roomId, {
+      uid: this.uid,
+      card: this.user.card,
+      message: this.message,
+      timestamp: Date.now(),
+    });
+    this.message = '';
+    this.content.scrollToBottom(100);
   }
 
   async ngOnInit() {
@@ -81,14 +101,19 @@ export class RoomPage implements OnInit {
     // ルームのユーザーリストの取得
     this.users = this.firestore.roomUserListInit(this.roomId);
     // ルーム情報を取得
-    const info = this.firestore.roomInfoInit(this.roomId)
+    const info = this.firestore.roomInfoInit(this.roomId);
     // カードの表示情報のバインディングのためにObservableで取得
     this.cardOpen = info.pipe( map(inf => inf.cardOpen) );
     // こちらは更新用に固定値でよいのでIRoomInfoオブジェクトを取得
     this.roomInfo = await info.pipe(first()).toPromise(Promise);
+    // チャット欄のメッセージ一覧
+    this.messages = this.firestore.messageInit(this.roomId);
   }
 
   trackByFn(index, item) {
     return item.id;
+  }
+  trackByFnForMsg(index, msg) {
+    return msg.mid;
   }
 }

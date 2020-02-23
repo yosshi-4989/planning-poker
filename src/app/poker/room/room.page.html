@@ -12,10 +12,25 @@
     <!--  チャットエリア  -->
     <ion-menu menuId="chat" contentId="playarea" side="end" class="custom-menu">
       <ion-content>
+        <ion-list class="ion-padding-top">
+          <ion-item lines="none" *ngFor="let m of messages | async; trackBy: trackByFnForMsg">
+            <ion-avatar slot="start">
+              <ion-img [src]="m.photoDataUrl" *ngIf="m.uid !== uid"></ion-img>
+            </ion-avatar>
+            <ion-label class="ion-padding ion-text-wrap" style="background-color: var(--ion-color-light-tint); border-radius: 12px;"
+              [class.ion-margin-end]="m.uid !== uid" [class.ion-margin-start]="m.uid === uid">
+              <div class="ion-text-nowrap"><strong>{{m.displayName}}</strong>: <strong color="primary">{{m.card}}</strong></div>
+              {{m.message}}
+            </ion-label>
+          </ion-item>
+        </ion-list>
       </ion-content>
 
       <ion-footer>
-        <ion-textarea placeholder="Text Area"></ion-textarea>
+        <form #f=ngForm>
+          <ion-textarea class="ion-margin-start" autoGrow="true" rows="1" placeholder="メッセージ" [(ngModel)]="message" name="message" required></ion-textarea>
+          <ion-button fill="clear" size="small" (click)="postMessage()" [disabled]="!f.form.valid">送信</ion-button>
+        </form>
       </ion-footer>
     </ion-menu>
 

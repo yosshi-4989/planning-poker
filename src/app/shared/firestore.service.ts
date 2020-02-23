@@ -1,19 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreDocument, AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { first } from 'rxjs/operators';
+import { first, concatMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 export interface IUser {
   displayName: string;
   photoDataUrl: string;
-}
-
-// 入室メンバーのステータス
-export interface IRoomUser {
-  id: string;
-  name: string;
-  card: string;
-  enterDate: Date;
 }
 
 export interface IRoomInfo {
@@ -25,6 +17,23 @@ export interface IRoomInfo {
 export interface IRoom extends IRoomInfo {
   roomId: string;
 }
+
+// 入室メンバーのステータス
+export interface IRoomUser {
+  id: string;
+  name: string;
+  card: string;
+  enterDate: Date;
+}
+
+export interface IMessage {
+  uid: string;
+  card: string;
+  message: string;
+  timestamp: number;
+}
+
+export interface IChat extends IUser, IMessage { }
 
 @Injectable({
   providedIn: 'root'
@@ -81,5 +90,24 @@ export class FirestoreService {
     return this.roomCollection.doc(roomId)
       .collection<IRoomUser>('users', ref => ref.orderBy('enterDate', 'asc'))
       .valueChanges();
+  }
+  // チャットメッセージの取得
+  messageInit(roomId: string): Observable<IChat[]> {
+    return this.roomCollection.doc(roomId)
+      .collection<IMessage>('messages', ref => ref.orderBy('timestamp', 'asc'))
+      .valueChanges({idField: 'mid'}).pipe(
+        concatMap(async messages => {
+          const users = await this.af.collection<IUser>('users')
+            .valueChanges( {idField: 'uid'} ).pipe(first()).toPromise(Promise);
+          return messages.map(message => {
+            const user = users.find(u => u.uid === message.uid);
+            return Object.assign(message, user);
+          });
+        })
+      );
+  }
+  // チャットメッセージの追加
+  messageAdd(roomId: string, message: IMessage) {
+    return this.roomCollection.doc(roomId).collection<IMessage>('messages').add(message);
   }
 }
